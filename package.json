@@ -1,0 +1,22 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "MERN Shopping cart app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dupflo/proshop.git"
+  },
+  "author": "Florian Dupuis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dupflo/proshop/issues"
+  },
+  "homepage": "https://github.com/Dupflo/proshop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
