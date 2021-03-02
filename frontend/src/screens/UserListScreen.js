@@ -12,26 +12,28 @@ const UserListScreen = ({ history }) => {
   const userList = useSelector((state) => state.userList)
   const { loading, error, users } = userList
 
-  const userLogin = useSelector((state) => state.userList)
+  const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   const userDelete = useSelector((state) => state.userDelete)
   const { success: successDelete } = userDelete
 
   useEffect(() => {
-    // if (userInfo && userInfo.isAdmin) {
-    dispatch(listUsers())
-    // }
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(listUsers())
+    } else {
+      history.push('/login')
+    }
   }, [dispatch, history, successDelete, userInfo])
 
   const deleteHandler = (id) => {
-    if (window.confirm('Are you sure ?')) {
+    if (window.confirm('Are you sure')) {
       dispatch(deleteUser(id))
     }
   }
 
   return (
-    <div>
+    <>
       <h1>Users</h1>
       {loading ? (
         <Loader />
@@ -54,8 +56,7 @@ const UserListScreen = ({ history }) => {
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>
-                  <a href={`mailto:${user.email}`}></a>
-                  {user.email}
+                  <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
                 <td>
                   {user.isAdmin ? (
@@ -64,24 +65,26 @@ const UserListScreen = ({ history }) => {
                     <i className='fas fa-times' style={{ color: 'red' }}></i>
                   )}
                 </td>
-                <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                  <Button variant='light' className='btn-sm'>
-                    <i className='fas fa-edit'></i>
+                <td>
+                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                    <Button variant='light' className='btn-sm'>
+                      <i className='fas fa-edit'></i>
+                    </Button>
+                  </LinkContainer>
+                  <Button
+                    variant='danger'
+                    className='btn-sm'
+                    onClick={() => deleteHandler(user._id)}
+                  >
+                    <i className='fas fa-trash'></i>
                   </Button>
-                </LinkContainer>
-                <Button
-                  variant='danger'
-                  className='btn-sm'
-                  onClick={() => deleteHandler(user._id)}
-                >
-                  <i className='fas fa-trash'></i>
-                </Button>
+                </td>
               </tr>
             ))}
           </tbody>
         </Table>
       )}
-    </div>
+    </>
   )
 }
 
